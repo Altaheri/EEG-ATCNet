@@ -7,9 +7,6 @@ This project provides the code used to produce the results reported in the paper
   title={Physics-inform attention temporal convolutional network for EEG-based motor imagery classification},
   author={Altaheri, Hamdi and Muhammad, and Alsulaiman, Mansour},
   journal={IEEE Transactions on Industrial Informatics},
-  volume={0},
-  number={0},
-  pages={0000--0000},
   year={2022},
   publisher={IEEE}
 }
