@@ -1,6 +1,6 @@
 # EEG-ATCNet
 
-This project provides the code used to produce the results reported in the paper [Physics-inform attention temporal convolutional network for EEG-based motor imagery classification](https://www.researchgate.net/publication/362491847_Physics-inform_attention_temporal_convolutional_network_for_EEG-based_motor_imagery_classification). If you find this work useful in your research, please cite
+This project provides the code used to produce the results reported in the paper [Physics-inform attention temporal convolutional network for EEG-based motor imagery classification](https://doi.org/10.1109/TII.2022.3197419). If you find this work useful in your research, please cite
 
 ```
 @article{,
