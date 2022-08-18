@@ -1,27 +1,42 @@
 """ 
-Hamdi Altaheri, King Saud University
+Copyright (C) 2022 King Saud University, Saudi Arabia 
+SPDX-License-Identifier: Apache-2.0 
 
-hamdi.altahery@gmail.com 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the 
+License at
 
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License. 
+
+Author:  Hamdi Altaheri 
 """
 
+#%%
+import math
 import tensorflow as tf
 from tensorflow.keras.layers import GlobalAveragePooling2D, GlobalMaxPooling2D, Reshape, Dense
 from tensorflow.keras.layers import multiply, Permute, Concatenate, Conv2D, Add, Activation, Lambda
 from tensorflow.keras.layers import Dropout, MultiHeadAttention, LayerNormalization
-
 from tensorflow.keras import backend as K
 
 
-def attach_attention_model(net, attention_model): 
+#%% Creat and return the attention model
+def get_attention_model(net, attention_model): 
     expanded_axis = 3 # defualt = 3
-    if attention_model == 'mha': # MHA_block
+    if attention_model == 'mha':   # Multi-head self attention layer 
         net = mha_block(net)
-    elif attention_model == 'se': # SE_block
+    elif attention_model == 'mhla':  # Multi-head local self-attention layer 
+        net = mha_block(net, vanilla = False)
+    elif attention_model == 'se':   # Squeeze-and-excitation layer
         if(len(net.shape) < 4):
             net = tf.expand_dims(net, axis=expanded_axis)
         net = se_block(net, ratio=8)
-    elif attention_model == 'cbam': # CBAM_block
+    elif attention_model == 'cbam': # Convolutional block attention module
         if(len(net.shape) < 4):
             net = tf.expand_dims(net, axis=expanded_axis)
         net = cbam_block(net, ratio=8)
@@ -32,22 +47,74 @@ def attach_attention_model(net, attention_model):
         net = K.squeeze(net, expanded_axis)
     return net
 
-def mha_block(input_feature, key_dim=8, num_heads=2, dropout = 0.5):
-    """Multi Head Attention (MHA) block.
-    As described in https://arxiv.org/abs/1706.03762
+
+#%% Multi-head self Attention (MHA) block
+def mha_block(input_feature, key_dim=8, num_heads=2, dropout = 0.5, vanilla = True):
+    """Multi Head self Attention (MHA) block.     
+       
+    Here we include two types of MHA blocks: 
+            The original multi-head self-attention as described in https://arxiv.org/abs/1706.03762
+            The multi-head local self attention as described in https://arxiv.org/abs/2112.13492v1
     """    
+    # Layer normalization
     x = LayerNormalization(epsilon=1e-6)(input_feature)
-    x = MultiHeadAttention(key_dim=key_dim, num_heads=num_heads, dropout = dropout)(x, x)
+    
+    if vanilla:
+        # Create a multi-head attention layer as described in 
+        # 'Attention Is All You Need' https://arxiv.org/abs/1706.03762
+        x = MultiHeadAttention(key_dim = key_dim, num_heads = num_heads, dropout = dropout)(x, x)
+    else:
+        # Create a multi-head local self-attention layer as described in 
+        # 'Vision Transformer for Small-Size Datasets' https://arxiv.org/abs/2112.13492v1
+        
+        # Build the diagonal attention mask
+        NUM_PATCHES = input_feature.shape[1]
+        diag_attn_mask = 1 - tf.eye(NUM_PATCHES)
+        diag_attn_mask = tf.cast([diag_attn_mask], dtype=tf.int8)
+        
+        # Create a multi-head local self attention layer.
+        x = MultiHeadAttention_LSA(key_dim = key_dim, num_heads = num_heads, dropout = dropout)(
+            x, x, attention_mask = diag_attn_mask)
+        
     x = Dropout(0.3)(x)
+    # Skip connection
     mha_feature = Add()([input_feature, x])
     
     return mha_feature
 
 
-# se_block implementation taken from https://github.com/kobiso/CBAM-keras
+#%% Multi head self Attention (MHA) block: Locality Self Attention (LSA)
+class MultiHeadAttention_LSA(tf.keras.layers.MultiHeadAttention):
+    """local multi-head self attention block
+     
+     Locality Self Attention as described in https://arxiv.org/abs/2112.13492v1
+     This implementation is taken from  https://keras.io/examples/vision/vit_small_ds/ 
+    """    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # The trainable temperature term. The initial value is the square 
+        # root of the key dimension.
+        self.tau = tf.Variable(math.sqrt(float(self._key_dim)), trainable=True)
+
+    def _compute_attention(self, query, key, value, attention_mask=None, training=None):
+        query = tf.multiply(query, 1.0 / self.tau)
+        attention_scores = tf.einsum(self._dot_product_equation, key, query)
+        attention_scores = self._masked_softmax(attention_scores, attention_mask)
+        attention_scores_dropout = self._dropout_layer(
+            attention_scores, training=training
+        )
+        attention_output = tf.einsum(
+            self._combine_equation, attention_scores_dropout, value
+        )
+        return attention_output, attention_scores
+
+
+#%% Squeeze-and-excitation block
 def se_block(input_feature, ratio=8):
-	"""Contains the implementation of Squeeze-and-Excitation(SE) block.
+	"""Squeeze-and-Excitation(SE) block.
+    
 	As described in https://arxiv.org/abs/1709.01507
+    The implementation is taken from https://github.com/kobiso/CBAM-keras
 	"""
 	channel_axis = 1 if K.image_data_format() == "channels_first" else -1
 	channel = input_feature.shape[channel_axis]
@@ -74,10 +141,12 @@ def se_block(input_feature, ratio=8):
 	return se_feature
 
 
-# cbam_block implementation taken from https://github.com/kobiso/CBAM-keras
+#%% Convolutional block attention module
 def cbam_block(cbam_feature, ratio=8):
-	"""Contains the implementation of Convolutional Block Attention Module(CBAM) block.
+	""" Convolutional Block Attention Module(CBAM) block.
+    
 	As described in https://arxiv.org/abs/1807.06521
+    The implementation is taken from https://github.com/kobiso/CBAM-keras
 	"""
 	
 	cbam_feature = channel_attention(cbam_feature, ratio)
@@ -85,7 +154,6 @@ def cbam_block(cbam_feature, ratio=8):
 	return cbam_feature
 
 def channel_attention(input_feature, ratio=8):
-	
 	channel_axis = 1 if K.image_data_format() == "channels_first" else -1
 # 	channel = input_feature._keras_shape[channel_axis]
 	channel = input_feature.shape[channel_axis]
