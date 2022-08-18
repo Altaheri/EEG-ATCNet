@@ -2,8 +2,13 @@
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/physics-inform-attention-temporal/eeg-4-classes-on-bci-competition-iv-2a)](https://paperswithcode.com/sota/eeg-4-classes-on-bci-competition-iv-2a?p=physics-inform-attention-temporal)
 
-This repository provides the code used to produce the results reported in the paper: [Physics-informed attention temporal convolutional network for EEG-based motor imagery classification](https://doi.org/10.1109/TII.2022.3197419)
+This repository provides the code for the [ATCNet](https://doi.org/10.1109/TII.2022.3197419) model proposed in the paper: [Physics-informed attention temporal convolutional network for EEG-based motor imagery classification](https://doi.org/10.1109/TII.2022.3197419)
 
+Authors: Hamdi Altaheri, Ghulam and Muhammad, Mansour Alsulaiman
+
+Center of Smart Robotics Research, King Saud University, Saudi Arabia
+
+##
 In addition to the proposed [ATCNet](https://doi.org/10.1109/TII.2022.3197419) model, the [*models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/models.py) file includes the implementation of other related methods, where they can be compared with the [ATCNet](https://doi.org/10.1109/TII.2022.3197419), including:
 * **EEGNet**, [[paper](https://arxiv.org/abs/1611.08024), [original code](https://github.com/vlawhern/arl-eegmodels)]
 * **EEG-TCNet**, [[paper](https://arxiv.org/abs/2006.00622), [original code](https://github.com/iis-eth-zurich/eeg-tcnet)]
