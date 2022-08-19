@@ -4,7 +4,7 @@
 
 This repository provides the code for the [ATCNet](https://doi.org/10.1109/TII.2022.3197419) model proposed in the paper: [Physics-informed attention temporal convolutional network for EEG-based motor imagery classification](https://doi.org/10.1109/TII.2022.3197419)
 
-Authors: Hamdi Altaheri, Ghulam and Muhammad, Mansour Alsulaiman
+Authors: Hamdi Altaheri, Ghulam Muhammad, Mansour Alsulaiman
 
 Center of Smart Robotics Research, King Saud University, Saudi Arabia
 
@@ -47,7 +47,7 @@ Visualize the transition of data in the ATCNet model.
 </p>
 
 ## Development environment
-Models were trained and tested by a single GPU, Nvidia GTX 2070 8GB (Driver Version: 512.78, CUDA 11.3), using Python 3.7 with TensorFlow framework. Anaconda 3 environment was used on Ubuntu 20.04.4 LTS and Windows 11.
+Models were trained and tested by a single GPU, Nvidia [GTX 2070 8GB](https://www.nvidia.com/en-me/geforce/graphics-cards/rtx-2070/) (Driver Version: [512.78](https://www.nvidia.com/download/driverResults.aspx/188599/en-us/), [CUDA 11.3](https://developer.nvidia.com/cuda-11.3.0-download-archive)), using Python 3.7 with [TensorFlow](https://www.tensorflow.org/) framework. [Anaconda 3](https://www.anaconda.com/products/distribution) was used on [Ubuntu 20.04.4 LTS](https://releases.ubuntu.com/20.04/) and [Windows 11](https://www.microsoft.com/en-hk/software-download/windows11).
 The following packages are required:
 * TensorFlow 2.7
 * matplotlib 3.5
@@ -56,7 +56,7 @@ The following packages are required:
 * SciPy 1.7
 
 ## Dataset 
-The [BCI Competition IV-2a](http://www.bbci.de/competition/iv/#dataset2a) dataset needs to be downloaded and the data path placed at 'data_path' variable in main.py. The dataset can be downloaded from [here](http://bnci-horizon-2020.eu/database/data-sets).
+The [BCI Competition IV-2a](http://www.bbci.de/competition/iv/#dataset2a) dataset needs to be downloaded and the data path placed at 'data_path' variable in [*main.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/main.py) file. The dataset can be downloaded from [here](http://bnci-horizon-2020.eu/database/data-sets).
 
 ## References
 If you find this work useful in your research, please use the following BibTeX entry for citation
