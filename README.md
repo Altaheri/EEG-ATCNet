@@ -21,8 +21,8 @@ This repository includes the implementation of the following attention schemes i
 * [Squeeze-and-excitation attention (SE)](https://arxiv.org/abs/1709.01507)
 * [Convolutional block attention module (CBAM)](https://arxiv.org/abs/1807.06521)
 
-The [*preprocess.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/preprocess.py) file loads and Divides the dataset based on two approaches: 
-1. [Subject-specific (subject-dependent)](https://link.springer.com/article/10.1007/s00521-021-06352-5#Sec9:~:text=Full%20size%20table-,Performance%20evaluation,-For%20the%20MI) approach. In this approach, we used the same training and testing data as the original competition, i.e., trials in session 1 for training, and trials in session 2 for testing. 
+The [*preprocess.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/preprocess.py) file loads and divides the dataset based on two approaches: 
+1. [Subject-specific (subject-dependent)](https://link.springer.com/article/10.1007/s00521-021-06352-5#Sec9:~:text=Full%20size%20table-,Performance%20evaluation,-For%20the%20MI) approach. In this approach, we used the same training and testing data as the original [BCI-IV-2a](https://www.bbci.de/competition/iv/) competition division, i.e., trials in session 1 for training, and trials in session 2 for testing. 
 2. ['Leave One Subject Out' (LOSO)](https://link.springer.com/article/10.1007/s00521-021-06352-5#Sec9:~:text=Full%20size%20table-,Performance%20evaluation,-For%20the%20MI) approach. LOSO is used for  **Subject-independent** evaluation. In LOSO, the model is trained and evaluated by several folds, equal to the number of subjects, and for each fold, one subject is used for evaluation and the others for training. The LOSO evaluation technique ensures that separate subjects (not visible in the training data) are usedto evaluate the model.
 
 
