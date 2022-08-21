@@ -242,7 +242,7 @@ def test(model, dataset_conf, results_path, allRuns = True):
         draw_confusion_matrix(cf_matrix[sub, :, :], str(sub+1), results_path)
         
         # Print & write performance measures for each subject
-        info = 'Subject: {}   best_run: {}   '.format(sub+1, (filepath[filepath.find('run-')+4]) )
+        info = 'Subject: {}   best_run: {:2}  '.format(sub+1, (filepath[filepath.find('run-')+4:filepath.find('/sub')]) )
         info = info + 'acc: {:.4f}   kappa: {:.4f}   '.format(acc_bestRun[sub], kappa_bestRun[sub] )
         if(allRuns): 
             info = info + 'avg_acc: {:.4f} +- {:.4f}   avg_kappa: {:.4f} +- {:.4f}'.format(
@@ -251,11 +251,12 @@ def test(model, dataset_conf, results_path, allRuns = True):
         print(info)
         log_write.write('\n'+info)
       
-    # Print & write the average performance measures for all subjects
-    info = '\nAverage all subjects - best run:\nAccuracy = {:.4f}   Kappa = {:.4f}\n'.format(
-        np.average(acc_bestRun), np.average(kappa_bestRun)) 
+    # Print & write the average performance measures for all subjects     
+    info = '\nAverage of {} subjects - best runs:\nAccuracy = {:.4f}   Kappa = {:.4f}\n'.format(
+        n_sub, np.average(acc_bestRun), np.average(kappa_bestRun)) 
     if(allRuns): 
-        info = info + 'Average all subjects - all runs:\nAccuracy = {:.4f}   Kappa = {:.4f}'.format(
+        info = info + '\nAverage of {} subjects x {} runs (average of {} experiments):\nAccuracy = {:.4f}   Kappa = {:.4f}'.format(
+            n_sub, acc_allRuns.shape[1], (n_sub * acc_allRuns.shape[1]),
             np.average(acc_allRuns), np.average(kappa_allRuns)) 
     print(info)
     log_write.write(info)
@@ -318,7 +319,7 @@ def getModel(model_name):
 def run():
     # Get dataset path
     data_path = os.path.expanduser('~') + '/BCI Competition IV/BCI Competition IV-2a/'
-    
+
     # Create a folder to store the results of the experiment
     results_path = os.getcwd() + "/results"
     if not  os.path.exists(results_path):
