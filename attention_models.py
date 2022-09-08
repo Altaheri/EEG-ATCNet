@@ -25,7 +25,7 @@ from tensorflow.keras.layers import Dropout, MultiHeadAttention, LayerNormalizat
 from tensorflow.keras import backend as K
 
 
-#%% Create and return the attention model
+#%% Create and apply the attention model
 def attention_block(net, attention_model): 
     in_sh = net.shape # dimensions of the input tensor
     in_len = len(in_sh) 

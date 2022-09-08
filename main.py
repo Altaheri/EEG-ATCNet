@@ -315,7 +315,7 @@ def getModel(model_name):
         # Train using ShallowConvNet: https://doi.org/10.1002/hbm.23730
         model = models.ShallowConvNet(nb_classes = 4 , Chans = 22, Samples = 1125)
     else:
-        raise Exception("'{}' model is not supported model yet!".format(model_name))
+        raise Exception("'{}' model is not supported yet!".format(model_name))
 
     return model
     
