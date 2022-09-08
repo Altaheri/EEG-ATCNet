@@ -366,6 +366,9 @@ def DeepConvNet(nb_classes, Chans = 64, Samples = 256,
     Schirrmeister et. al. (2017), Human Brain Mapping.
     See details at https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730
     
+    The original code for this model is available at:
+        https://github.com/braindecode/braindecode
+    
     This implementation is taken from code by the Army Research Laboratory (ARL) 
     at https://github.com/vlawhern/arl-eegmodels
     
@@ -445,6 +448,9 @@ def ShallowConvNet(nb_classes, Chans = 64, Samples = 128, dropoutRate = 0.5):
     in Schirrmeister et. al. (2017), Human Brain Mapping.
     See details at https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730
     
+    The original code for this model is available at:
+        https://github.com/braindecode/braindecode
+
     This implementation is taken from code by the Army Research Laboratory (ARL) 
     at https://github.com/vlawhern/arl-eegmodels
 

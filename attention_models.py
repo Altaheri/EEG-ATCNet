@@ -21,30 +21,39 @@ import math
 import tensorflow as tf
 from tensorflow.keras.layers import GlobalAveragePooling2D, GlobalMaxPooling2D, Reshape, Dense
 from tensorflow.keras.layers import multiply, Permute, Concatenate, Conv2D, Add, Activation, Lambda
-from tensorflow.keras.layers import Dropout, MultiHeadAttention, LayerNormalization
+from tensorflow.keras.layers import Dropout, MultiHeadAttention, LayerNormalization, Reshape
 from tensorflow.keras import backend as K
 
 
 #%% Create and return the attention model
 def attention_block(net, attention_model): 
+    in_sh = net.shape # dimensions of the input tensor
+    in_len = len(in_sh) 
     expanded_axis = 3 # defualt = 3
+    
     if attention_model == 'mha':   # Multi-head self attention layer 
+        if(in_len > 3):
+            net = Reshape((in_sh[1],-1))(net)
         net = mha_block(net)
     elif attention_model == 'mhla':  # Multi-head local self-attention layer 
+        if(in_len > 3):
+            net = Reshape((in_sh[1],-1))(net)
         net = mha_block(net, vanilla = False)
     elif attention_model == 'se':   # Squeeze-and-excitation layer
-        if(len(net.shape) < 4):
+        if(in_len < 4):
             net = tf.expand_dims(net, axis=expanded_axis)
         net = se_block(net, ratio=8)
     elif attention_model == 'cbam': # Convolutional block attention module
-        if(len(net.shape) < 4):
+        if(in_len < 4):
             net = tf.expand_dims(net, axis=expanded_axis)
         net = cbam_block(net, ratio=8)
     else:
         raise Exception("'{}' is not supported attention module!".format(attention_model))
         
-    if(len(net.shape) == 4):
+    if (in_len == 3 and len(net.shape) == 4):
         net = K.squeeze(net, expanded_axis)
+    elif (in_len == 4 and len(net.shape) == 3):
+        net = Reshape((in_sh[1], in_sh[2], in_sh[3]))(net)
     return net
 
 
