@@ -2,28 +2,56 @@
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/physics-inform-attention-temporal/eeg-4-classes-on-bci-competition-iv-2a)](https://paperswithcode.com/sota/eeg-4-classes-on-bci-competition-iv-2a?p=physics-inform-attention-temporal)
 
-This repository provides the code for the [ATCNet](https://doi.org/10.1109/TII.2022.3197419) model proposed in the paper: [Physics-informed attention temporal convolutional network for EEG-based motor imagery classification](https://doi.org/10.1109/TII.2022.3197419)
+This repository provides code for the Attention Temporal Convolutional Network [(ATCNet)](https://doi.org/10.1109/TII.2022.3197419) proposed in the paper: [Physics-informed attention temporal convolutional network for EEG-based motor imagery classification](https://doi.org/10.1109/TII.2022.3197419)
 
 Authors: Hamdi Altaheri, Ghulam Muhammad, Mansour Alsulaiman
 
 Center of Smart Robotics Research, King Saud University, Saudi Arabia
 
 ##
-In addition to the proposed [ATCNet](https://doi.org/10.1109/TII.2022.3197419) model, the [*models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/models.py) file includes the implementation of other related methods, where they can be compared with the [ATCNet](https://doi.org/10.1109/TII.2022.3197419), including:
+In addition to the proposed [ATCNet](https://doi.org/10.1109/TII.2022.3197419) model, the [*models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/models.py) file includes the implementation of other related methods, which can be compared with [ATCNet](https://doi.org/10.1109/TII.2022.3197419), including:
 * **EEGNet**, [[paper](https://arxiv.org/abs/1611.08024), [original code](https://github.com/vlawhern/arl-eegmodels)]
 * **EEG-TCNet**, [[paper](https://arxiv.org/abs/2006.00622), [original code](https://github.com/iis-eth-zurich/eeg-tcnet)]
 * **TCNet_Fusion**, [[paper](https://doi.org/10.1016/j.bspc.2021.102826)]
 * **EEGNeX**, [[paper](https://arxiv.org/abs/2207.12369), [original code](https://github.com/chenxiachan/EEGNeX)]
+* **DeepConvNet**, [[paper](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730), [original code](https://github.com/braindecode/braindecode)]
+* **ShallowConvNet**, [[paper](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730), [original code](https://github.com/braindecode/braindecode)]
 
+These methods can be called using the *getModel(model_name)* method in [*main.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/main.py) file, where *'model_name'* refers to the required DL architecture, as follows:
+```
+def getModel(model_name):
+
+    if(model_name == 'ATCNet'):              model = models.ATCNet( n_classes = 4)     
+    elif(model_name == 'TCNet_Fusion'):      model = models.TCNet_Fusion(n_classes = 4)      
+    elif(model_name == 'EEGTCNet'):          model = models.EEGTCNet(n_classes = 4)          
+    elif(model_name == 'EEGNet'):            model = models.EEGNet_classifier(n_classes = 4) 
+    elif(model_name == 'EEGNeX'):            model = models.EEGNeX_8_32(n_timesteps = 1125 , n_features = 22, n_outputs = 4)
+    elif(model_name == 'DeepConvNet'):       model = models.DeepConvNet(nb_classes = 4 , Chans = 22, Samples = 1125)
+    elif(model_name == 'ShallowConvNet'):    model = models.ShallowConvNet(nb_classes = 4 , Chans = 22, Samples = 1125)
+    
+    else: raise Exception("'{}' model is not supported model yet!".format(model_name))
+    return model
+```
+##
 This repository includes the implementation of the following attention schemes in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file: 
-* [Multi-head self-attention (MSA)](https://arxiv.org/abs/1706.03762)
-* [Multi-head attention with locality self-attention (MLSA)](https://arxiv.org/abs/2112.13492v1)
-* [Squeeze-and-excitation attention (SE)](https://arxiv.org/abs/1709.01507)
-* [Convolutional block attention module (CBAM)](https://arxiv.org/abs/1807.06521)
+* [Multi-head self-attention (mha)](https://arxiv.org/abs/1706.03762)
+* [Multi-head attention with locality self-attention (mhla)](https://arxiv.org/abs/2112.13492v1)
+* [Squeeze-and-excitation attention (se)](https://arxiv.org/abs/1709.01507)
+* [Convolutional block attention module (cbam)](https://arxiv.org/abs/1807.06521)
 
+These attention blocks can be called using the *attention_block(net,  attention_model)* method in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file, where *'net'* is the input layer and *'attention_model'* indicates the type of the attention mechanism, which has five options: *None*, *'mha'*, *'mhla'*, *'cbam'*, and *'se'*.
+```
+Example: 
+    input = Input(shape = (10, 100, 1))   
+    block1 = Conv2D(1, (1, 10))(input)
+    block2 = attention_block(block1,  'mha') # mha: multi-head self-attention
+    output = Dense(4, activation="softmax")(Flatten()(block2))
+```
+##
 The [*preprocess.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/preprocess.py) file loads and divides the dataset based on two approaches: 
 1. [Subject-specific (subject-dependent)](https://link.springer.com/article/10.1007/s00521-021-06352-5#Sec9:~:text=Full%20size%20table-,Performance%20evaluation,-For%20the%20MI) approach. In this approach, we used the same training and testing data as the original [BCI-IV-2a](https://www.bbci.de/competition/iv/) competition division, i.e., trials in session 1 for training, and trials in session 2 for testing. 
 2. ['Leave One Subject Out' (LOSO)](https://link.springer.com/article/10.1007/s00521-021-06352-5#Sec9:~:text=Full%20size%20table-,Performance%20evaluation,-For%20the%20MI) approach. LOSO is used for  **Subject-independent** evaluation. In LOSO, the model is trained and evaluated by several folds, equal to the number of subjects, and for each fold, one subject is used for evaluation and the others for training. The LOSO evaluation technique ensures that separate subjects (not visible in the training data) are usedto evaluate the model.
+
 
 
 ## About ATCNet
