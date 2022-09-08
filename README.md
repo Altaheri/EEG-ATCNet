@@ -29,7 +29,7 @@ def getModel(model_name):
     elif(model_name == 'DeepConvNet'):       model = models.DeepConvNet(nb_classes = 4 , Chans = 22, Samples = 1125)
     elif(model_name == 'ShallowConvNet'):    model = models.ShallowConvNet(nb_classes = 4 , Chans = 22, Samples = 1125)
     
-    else: raise Exception("'{}' model is not supported model yet!".format(model_name))
+    else: raise Exception("'{}' model is not supported yet!".format(model_name))
     return model
 ```
 ##
