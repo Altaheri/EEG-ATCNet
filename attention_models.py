@@ -25,8 +25,8 @@ from tensorflow.keras.layers import Dropout, MultiHeadAttention, LayerNormalizat
 from tensorflow.keras import backend as K
 
 
-#%% Creat and return the attention model
-def get_attention_model(net, attention_model): 
+#%% Create and return the attention model
+def attention_block(net, attention_model): 
     expanded_axis = 3 # defualt = 3
     if attention_model == 'mha':   # Multi-head self attention layer 
         net = mha_block(net)

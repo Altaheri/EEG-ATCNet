@@ -19,14 +19,14 @@ Author:  Hamdi Altaheri
 #%%
 import tensorflow as tf
 from tensorflow.keras.models import Model, Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation, AveragePooling2D
+from tensorflow.keras.layers import Dense, Dropout, Activation, AveragePooling2D, MaxPooling2D
 from tensorflow.keras.layers import Conv1D, Conv2D, SeparableConv2D, DepthwiseConv2D
 from tensorflow.keras.layers import BatchNormalization, LayerNormalization, Flatten 
 from tensorflow.keras.layers import Add, Concatenate, Lambda, Input, Permute
 from tensorflow.keras.constraints import max_norm
 
-from attention_models import get_attention_model
-
+from tensorflow.keras import backend as K
+from attention_models import attention_block
         
 #%% The proposed ATCNet model, https://doi.org/10.1109/TII.2022.3197419
 def ATCNet(n_classes, in_chans = 22, in_samples = 1125, n_windows = 3, attention = None, 
@@ -68,7 +68,7 @@ def ATCNet(n_classes, in_chans = 22, in_samples = 1125, n_windows = 3, attention
         
         # Attention_model
         if attention is not None:
-            block2 = get_attention_model(block2, attention)
+            block2 = attention_block(block2, attention)
 
         # Temporal convolutional network (TCN)
         block3 = TCN_block(input_layer = block2, input_dimension = F2, depth = tcn_depth,
@@ -358,3 +358,134 @@ def EEGNet(input_layer, F1=8, kernLength=64, D=2, Chans=22, dropout=0.25):
     block3 = AveragePooling2D((8,1),data_format='channels_last')(block3)
     block3 = Dropout(dropout)(block3)
     return block3
+
+#%% Reproduced DeepConvNet model: https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730
+def DeepConvNet(nb_classes, Chans = 64, Samples = 256,
+                dropoutRate = 0.5):
+    """ Keras implementation of the Deep Convolutional Network as described in
+    Schirrmeister et. al. (2017), Human Brain Mapping.
+    See details at https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730
+    
+    This implementation is taken from code by the Army Research Laboratory (ARL) 
+    at https://github.com/vlawhern/arl-eegmodels
+    
+    This implementation assumes the input is a 2-second EEG signal sampled at 
+    128Hz, as opposed to signals sampled at 250Hz as described in the original
+    paper. We also perform temporal convolutions of length (1, 5) as opposed
+    to (1, 10) due to this sampling rate difference. 
+    
+    Note that we use the max_norm constraint on all convolutional layers, as 
+    well as the classification layer. We also change the defaults for the
+    BatchNormalization layer. We used this based on a personal communication 
+    with the original authors.
+    
+                      ours        original paper
+    pool_size        1, 2        1, 3
+    strides          1, 2        1, 3
+    conv filters     1, 5        1, 10
+    
+    Note that this implementation has not been verified by the original 
+    authors. 
+    
+    """
+
+    # start the model
+    # input_main   = Input((Chans, Samples, 1))
+    input_main   = Input((1, Chans, Samples))
+    input_2 = Permute((2,3,1))(input_main) 
+    
+    block1       = Conv2D(25, (1, 5), 
+                                 input_shape=(Chans, Samples, 1),
+                                 kernel_constraint = max_norm(2., axis=(0,1,2)))(input_2)
+    block1       = Conv2D(25, (Chans, 1),
+                                 kernel_constraint = max_norm(2., axis=(0,1,2)))(block1)
+    block1       = BatchNormalization(epsilon=1e-05, momentum=0.9)(block1)
+    block1       = Activation('elu')(block1)
+    block1       = MaxPooling2D(pool_size=(1, 2), strides=(1, 2))(block1)
+    block1       = Dropout(dropoutRate)(block1)
+  
+    block2       = Conv2D(50, (1, 5),
+                                 kernel_constraint = max_norm(2., axis=(0,1,2)))(block1)
+    block2       = BatchNormalization(epsilon=1e-05, momentum=0.9)(block2)
+    block2       = Activation('elu')(block2)
+    block2       = MaxPooling2D(pool_size=(1, 2), strides=(1, 2))(block2)
+    block2       = Dropout(dropoutRate)(block2)
+    
+    block3       = Conv2D(100, (1, 5),
+                                 kernel_constraint = max_norm(2., axis=(0,1,2)))(block2)
+    block3       = BatchNormalization(epsilon=1e-05, momentum=0.9)(block3)
+    block3       = Activation('elu')(block3)
+    block3       = MaxPooling2D(pool_size=(1, 2), strides=(1, 2))(block3)
+    block3       = Dropout(dropoutRate)(block3)
+    
+    block4       = Conv2D(200, (1, 5),
+                                 kernel_constraint = max_norm(2., axis=(0,1,2)))(block3)
+    block4       = BatchNormalization(epsilon=1e-05, momentum=0.9)(block4)
+    block4       = Activation('elu')(block4)
+    block4       = MaxPooling2D(pool_size=(1, 2), strides=(1, 2))(block4)
+    block4       = Dropout(dropoutRate)(block4)
+    
+    flatten      = Flatten()(block4)
+    
+    dense        = Dense(nb_classes, kernel_constraint = max_norm(0.5))(flatten)
+    softmax      = Activation('softmax')(dense)
+    
+    return Model(inputs=input_main, outputs=softmax)
+
+#%% need these for ShallowConvNet
+def square(x):
+    return K.square(x)
+
+def log(x):
+    return K.log(K.clip(x, min_value = 1e-7, max_value = 10000))   
+
+#%% Reproduced ShallowConvNet model: https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730
+def ShallowConvNet(nb_classes, Chans = 64, Samples = 128, dropoutRate = 0.5):
+    """ Keras implementation of the Shallow Convolutional Network as described
+    in Schirrmeister et. al. (2017), Human Brain Mapping.
+    See details at https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730
+    
+    This implementation is taken from code by the Army Research Laboratory (ARL) 
+    at https://github.com/vlawhern/arl-eegmodels
+
+    Assumes the input is a 2-second EEG signal sampled at 128Hz. Note that in 
+    the original paper, they do temporal convolutions of length 25 for EEG
+    data sampled at 250Hz. We instead use length 13 since the sampling rate is 
+    roughly half of the 250Hz which the paper used. The pool_size and stride
+    in later layers is also approximately half of what is used in the paper.
+    
+    Note that we use the max_norm constraint on all convolutional layers, as 
+    well as the classification layer. We also change the defaults for the
+    BatchNormalization layer. We used this based on a personal communication 
+    with the original authors.
+    
+                     ours        original paper
+    pool_size        1, 35       1, 75
+    strides          1, 7        1, 15
+    conv filters     1, 13       1, 25    
+    
+    Note that this implementation has not been verified by the original 
+    authors. We do note that this implementation reproduces the results in the
+    original paper with minor deviations. 
+    """
+
+    # start the model
+    # input_main   = Input((Chans, Samples, 1))
+    input_main   = Input((1, Chans, Samples))
+    input_2 = Permute((2,3,1))(input_main) 
+
+    block1       = Conv2D(40, (1, 13), 
+                                 input_shape=(Chans, Samples, 1),
+                                 kernel_constraint = max_norm(2., axis=(0,1,2)))(input_2)
+    block1       = Conv2D(40, (Chans, 1), use_bias=False, 
+                          kernel_constraint = max_norm(2., axis=(0,1,2)))(block1)
+    block1       = BatchNormalization(epsilon=1e-05, momentum=0.9)(block1)
+    block1       = Activation(square)(block1)
+    block1       = AveragePooling2D(pool_size=(1, 35), strides=(1, 7))(block1)
+    block1       = Activation(log)(block1)
+    block1       = Dropout(dropoutRate)(block1)
+    flatten      = Flatten()(block1)
+    dense        = Dense(nb_classes, kernel_constraint = max_norm(0.5))(flatten)
+    softmax      = Activation('softmax')(dense)
+    
+    return Model(inputs=input_main, outputs=softmax)

@@ -28,7 +28,7 @@ from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 from sklearn.metrics import confusion_matrix, accuracy_score, ConfusionMatrixDisplay
 from sklearn.metrics import cohen_kappa_score
 
-from models import ATCNet, TCNet_Fusion, EEGTCNet, EEGNet_classifier, EEGNeX_8_32
+import models
 from preprocess import get_data
 
 #%%
@@ -93,7 +93,6 @@ def train(dataset_conf, train_conf, results_path):
     epochs = train_conf.get('epochs')
     patience = train_conf.get('patience')
     lr = train_conf.get('lr')
-    opt = Adam(learning_rate=lr)
     LearnCurves = train_conf.get('LearnCurves') # Plot Learning Curves?
     n_train = train_conf.get('n_train')
     model_name = train_conf.get('model')
@@ -128,7 +127,7 @@ def train(dataset_conf, train_conf, results_path):
             # Create the model
             model = getModel(model_name)
             # Compile and train the model
-            model.compile(loss=categorical_crossentropy, optimizer=opt, metrics=['accuracy'])          
+            model.compile(loss=categorical_crossentropy, optimizer=Adam(learning_rate=lr), metrics=['accuracy'])          
             callbacks = [
                 ModelCheckpoint(filepath, monitor='val_accuracy', verbose=0, 
                                 save_best_only=True, save_weights_only=True, mode='max'),
@@ -275,7 +274,7 @@ def getModel(model_name):
     # Select the model
     if(model_name == 'ATCNet'):
         # Train using the proposed model (ATCNet): https://doi.org/10.1109/TII.2022.3197419
-        model = ATCNet( 
+        model = models.ATCNet( 
             # Dataset parameters
             n_classes = 4, 
             in_chans = 22, 
@@ -299,16 +298,22 @@ def getModel(model_name):
             )     
     elif(model_name == 'TCNet_Fusion'):
         # Train using TCNet_Fusion: https://doi.org/10.1016/j.bspc.2021.102826
-        model = TCNet_Fusion(n_classes = 4)      
+        model = models.TCNet_Fusion(n_classes = 4)      
     elif(model_name == 'EEGTCNet'):
         # Train using EEGTCNet: https://arxiv.org/abs/2006.00622
-        model = EEGTCNet(n_classes = 4)          
+        model = models.EEGTCNet(n_classes = 4)          
     elif(model_name == 'EEGNet'):
         # Train using EEGNet: https://arxiv.org/abs/1611.08024
-        model = EEGNet_classifier(n_classes = 4) 
+        model = models.EEGNet_classifier(n_classes = 4) 
     elif(model_name == 'EEGNeX'):
         # Train using EEGNeX: https://arxiv.org/abs/2207.12369
-        model = EEGNeX_8_32(n_timesteps = 1125 , n_features = 22, n_outputs = 4)
+        model = models.EEGNeX_8_32(n_timesteps = 1125 , n_features = 22, n_outputs = 4)
+    elif(model_name == 'DeepConvNet'):
+        # Train using DeepConvNet: https://doi.org/10.1002/hbm.23730
+        model = models.DeepConvNet(nb_classes = 4 , Chans = 22, Samples = 1125)
+    elif(model_name == 'ShallowConvNet'):
+        # Train using ShallowConvNet: https://doi.org/10.1002/hbm.23730
+        model = models.ShallowConvNet(nb_classes = 4 , Chans = 22, Samples = 1125)
     else:
         raise Exception("'{}' model is not supported model yet!".format(model_name))
 
@@ -319,7 +324,7 @@ def getModel(model_name):
 def run():
     # Get dataset path
     data_path = os.path.expanduser('~') + '/BCI Competition IV/BCI Competition IV-2a/'
-
+    
     # Create a folder to store the results of the experiment
     results_path = os.getcwd() + "/results"
     if not  os.path.exists(results_path):
@@ -337,8 +342,7 @@ def run():
 
     # Evaluate the model based on the weights saved in the '/results' folder
     model = getModel(train_conf.get('model'))
-    test(model, dataset_conf, results_path)
-    
+    test(model, dataset_conf, results_path)    
     
 #%%
 if __name__ == "__main__":
