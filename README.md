@@ -24,7 +24,7 @@ This repository includes the implementation of the following attention schemes i
 * [Squeeze-and-excitation attention (se)](https://arxiv.org/abs/1709.01507)
 * [Convolutional block attention module (cbam)](https://arxiv.org/abs/1807.06521)
 
-These attention blocks can be used using the *attention_block(net,  attention_model)* method in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file, where *'net'* is the input layer and *'attention_model'* indicates the type of the attention mechanism, which has five options: *None*, [*'mha'*](https://arxiv.org/abs/1706.03762), [*'mhla'*](https://arxiv.org/abs/2112.13492v1), [*'cbam'*](https://arxiv.org/abs/1807.06521), and [*'se'*](https://arxiv.org/abs/1709.01507).
+These attention blocks can be called using the *attention_block(net,  attention_model)* method in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file, where *'net'* is the input layer and *'attention_model'* indicates the type of the attention mechanism, which has five options: *None*, [*'mha'*](https://arxiv.org/abs/1706.03762), [*'mhla'*](https://arxiv.org/abs/2112.13492v1), [*'cbam'*](https://arxiv.org/abs/1807.06521), and [*'se'*](https://arxiv.org/abs/1709.01507).
 ```
 Example: 
     input = Input(shape = (10, 100, 1))   
