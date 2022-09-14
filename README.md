@@ -17,21 +17,6 @@ In addition to the proposed [ATCNet](https://doi.org/10.1109/TII.2022.3197419) m
 * **DeepConvNet**, [[paper](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730), [original code](https://github.com/braindecode/braindecode)]
 * **ShallowConvNet**, [[paper](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730), [original code](https://github.com/braindecode/braindecode)]
 
-These methods can be called using the *getModel(model_name)* method in [*main.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/main.py) file, where *'model_name'* refers to the required DL architecture, as follows:
-```
-def getModel(model_name):
-
-    if(model_name == 'ATCNet'):              model = models.ATCNet( n_classes = 4)     
-    elif(model_name == 'TCNet_Fusion'):      model = models.TCNet_Fusion(n_classes = 4)      
-    elif(model_name == 'EEGTCNet'):          model = models.EEGTCNet(n_classes = 4)          
-    elif(model_name == 'EEGNet'):            model = models.EEGNet_classifier(n_classes = 4) 
-    elif(model_name == 'EEGNeX'):            model = models.EEGNeX_8_32(n_timesteps = 1125 , n_features = 22, n_outputs = 4)
-    elif(model_name == 'DeepConvNet'):       model = models.DeepConvNet(nb_classes = 4 , Chans = 22, Samples = 1125)
-    elif(model_name == 'ShallowConvNet'):    model = models.ShallowConvNet(nb_classes = 4 , Chans = 22, Samples = 1125)
-    
-    else: raise Exception("'{}' model is not supported yet!".format(model_name))
-    return model
-```
 ##
 This repository includes the implementation of the following attention schemes in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file: 
 * [Multi-head self-attention (mha)](https://arxiv.org/abs/1706.03762)
@@ -39,7 +24,7 @@ This repository includes the implementation of the following attention schemes i
 * [Squeeze-and-excitation attention (se)](https://arxiv.org/abs/1709.01507)
 * [Convolutional block attention module (cbam)](https://arxiv.org/abs/1807.06521)
 
-These attention blocks can be called using the *attention_block(net,  attention_model)* method in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file, where *'net'* is the input layer and *'attention_model'* indicates the type of the attention mechanism, which has five options: *None*, *'mha'*, *'mhla'*, *'cbam'*, and *'se'*.
+These attention blocks can be used using the *attention_block(net,  attention_model)* method in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file, where *'net'* is the input layer and *'attention_model'* indicates the type of the attention mechanism, which has five options: *None*, [*'mha'*](https://arxiv.org/abs/1706.03762), [*'mhla'*](https://arxiv.org/abs/2112.13492v1), [*'cbam'*](https://arxiv.org/abs/1807.06521), and [*'se'*](https://arxiv.org/abs/1709.01507).
 ```
 Example: 
     input = Input(shape = (10, 100, 1))   
