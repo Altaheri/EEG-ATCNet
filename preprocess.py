@@ -51,8 +51,8 @@ def load_data_LOSO (data_path, subject):
     for sub in range (0,9):
         path = data_path+'s' + str(sub+1) + '/'
         
-        X1, y1 = load_data(sub+1, True ,path)
-        X2, y2 = load_data(sub+1, False ,path)
+        X1, y1 = load_data(path, sub+1, True)
+        X2, y2 = load_data(path, sub+1, False)
         X = np.concatenate((X1, X2), axis=0)
         y = np.concatenate((y1, y2), axis=0)
                    
