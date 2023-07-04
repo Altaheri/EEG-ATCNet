@@ -77,20 +77,39 @@ If you find this work useful in your research, please use the following BibTeX e
 
 ```
 @article{9852687,
-  title={Physics-informed attention temporal convolutional network for EEG-based motor imagery classification}, 
+  title={Physics-Informed Attention Temporal Convolutional Network for EEG-Based Motor Imagery Classification},
   author={Altaheri, Hamdi and Muhammad, Ghulam and Alsulaiman, Mansour},
-  journal={IEEE Transactions on Industrial Informatics}, 
-  year={2022},
+  journal={IEEE Transactions on Industrial Informatics},
+  year={2023},
+  volume={19},
+  number={2},
+  pages={2249--2258},
+  publisher={IEEE}
   doi={10.1109/TII.2022.3197419}
-  }
-  
-@article{altaheri2021deep,
-  title={Deep learning techniques for classification of electroencephalogram (EEG) motor imagery (MI) signals: a review},
+}
+
+@article{10142002,
+  title={Dynamic convolution with multilevel attention for EEG-based motor imagery decoding}, 
+  author={Altaheri, Hamdi and Muhammad, Ghulam and Alsulaiman, Mansour},
+  journal={IEEE Internet of Things Journal}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1-1},
+  publisher={IEEE}
+  doi={10.1109/JIOT.2023.3281911}
+}
+
+@article{altaheri2023deep,
+  title={Deep learning techniques for classification of electroencephalogram (EEG) motor imagery (MI) signals: A review},
   author={Altaheri, Hamdi and Muhammad, Ghulam and Alsulaiman, Mansour and Amin, Syed Umar and Altuwaijri, Ghadir Ali and Abdul, Wadood and Bencherif, Mohamed A and Faisal, Mohammed},
   journal={Neural Computing and Applications},
-  pages={1--42},
-  year={2021},
+  year={2023},
+  volume={35},
+  number={20},
+  pages={14681--14722},
   publisher={Springer}
+  doi={10.1007/s00521-021-06352-5}
 }
-```
 
+```
