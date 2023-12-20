@@ -7,15 +7,21 @@ This repository provides code for the Attention Temporal Convolutional Network [
 Authors: Hamdi Altaheri, Ghulam Muhammad, Mansour Alsulaiman
 
 Center of Smart Robotics Research, King Saud University, Saudi Arabia
-
+##
+**Updates**: 
+* The regularization parameters of [ATCNet](https://doi.org/10.1109/TII.2022.3197419) have been modified, resulting in an enhancement in the model's performance and fortifying it against overfitting.
+* The current *main_TrainTest.py* file, following the training and evaluation method outlined in [Paper 1] [paper 2], has been identified as not aligning with industry best practices. In response, we strongly recommend adopting the methodology implemented in the refined *main_TrainValTest.py* file. This updated version splits the data into train/valid/test sets, following the guidelines detailed in this [post](https://braindecode.org/stable/auto_examples/model_building/plot_how_train_test_and_tune.html#) ([Option 2](https://braindecode.org/stable/auto_examples/model_building/plot_how_train_test_and_tune.html#option-2-train-val-test-split:~:text=Number%20of%20samples.%27%3E-,Option%202%3A%20Train%2DVal%2DTest%20Split,-When%20evaluating%20different)). 
 ##
 In addition to the proposed [ATCNet](https://doi.org/10.1109/TII.2022.3197419) model, the [*models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/models.py) file includes the implementation of other related methods, which can be compared with [ATCNet](https://doi.org/10.1109/TII.2022.3197419), including:
 * **EEGNet**, [[paper](https://arxiv.org/abs/1611.08024), [original code](https://github.com/vlawhern/arl-eegmodels)]
 * **EEG-TCNet**, [[paper](https://arxiv.org/abs/2006.00622), [original code](https://github.com/iis-eth-zurich/eeg-tcnet)]
 * **TCNet_Fusion**, [[paper](https://doi.org/10.1016/j.bspc.2021.102826)]
+* **MBEEG_SENet**, [[paper](https://doi.org/10.3390/diagnostics12040995)]
 * **EEGNeX**, [[paper](https://arxiv.org/abs/2207.12369), [original code](https://github.com/chenxiachan/EEGNeX)]
 * **DeepConvNet**, [[paper](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730), [original code](https://github.com/braindecode/braindecode)]
 * **ShallowConvNet**, [[paper](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730), [original code](https://github.com/braindecode/braindecode)]
+
+The following table showes the performance of [ATCNet](https://doi.org/10.1109/TII.2022.3197419) and other reproduced models based on the methodology defined in the *main_TrainValTest.py* file:
 
 ##
 This repository includes the implementation of the following attention schemes in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file: 
@@ -41,6 +47,14 @@ The *get_data()* method in the [*preprocess.py*](https://github.com/Altaheri/EEG
 
 
 ## About ATCNet
+ATCNet is inspired in part by the vision transformer (ViT) proposed by Dosovitskiy et al. [172].  ATCNet differs from ViT by the following:
+* ViT uses single-layer linear projection while ATCNet uses multi-layer nonlinear projection, i.e., convolutional projection specifically designed for EEG-based brain signals.
+* ViT consists of a stack of encoders where the output of the previous encoder is the input of the subsequent. ATCNet consists of parallel encoders and the outputs of all encoders are concatenated.
+* The encoder block in ViT consists of an MSA followed by a multilayer perceptron (MLP) while in ATCNet the MSA is followed by a TCN.
+* The first encoder in ViT receives the entire input sequence while each encoder in ATCNet receives a shifted window from the input sequence.
+
+![ATCNet vs Vit](https://github.com/Altaheri/EEG-ATCNet/assets/25565236/210f6a4e-c212-4a9e-9336-415f0df4e293)
+
 ATCNet model consists of three main blocks: 
 1. **Convolutional (CV) block**: encodes low-level spatio-temporal information within the MI-EEG signal into a sequence of high-level temporal representations through three convolutional layers. 
 2. **Attention (AT) block**: highlights the most important information in the temporal sequence using a multi-head self-attention (MSA). 
@@ -93,9 +107,9 @@ If you find this work useful in your research, please use the following BibTeX e
   author={Altaheri, Hamdi and Muhammad, Ghulam and Alsulaiman, Mansour},
   journal={IEEE Internet of Things Journal}, 
   year={2023},
-  volume={},
-  number={},
-  pages={1-1},
+  volume={10},
+  number={21},
+  pages={18579-18588},
   publisher={IEEE}
   doi={10.1109/JIOT.2023.3281911}
 }
