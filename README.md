@@ -21,7 +21,7 @@ In addition to the proposed [ATCNet](https://doi.org/10.1109/TII.2022.3197419) m
 * **DeepConvNet**, [[paper](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730), [original code](https://github.com/braindecode/braindecode)]
 * **ShallowConvNet**, [[paper](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23730), [original code](https://github.com/braindecode/braindecode)]
 
-The following table shows the performance of [ATCNet](https://doi.org/10.1109/TII.2022.3197419) and other reproduced models based on the methodology defined in the *main_TrainValTest.py* file:
+The following table shows the performance of [ATCNet](https://doi.org/10.1109/TII.2022.3197419) and other reproduced models based on the methodology defined in the [*main_TrainValTest.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/main_TrainValTest.py) file:
 
 ##
 This repository includes the implementation of the following attention schemes in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file: 
