@@ -415,7 +415,7 @@ def run():
                   'LearnCurves': True, 'from_logits': False, 'model':'ATCNet'}
            
     # Train the model
-    train(dataset_conf, train_conf, results_path)
+    # train(dataset_conf, train_conf, results_path)
 
     # Evaluate the model based on the weights saved in the '/results' folder
     model = getModel(train_conf.get('model'), dataset_conf)
