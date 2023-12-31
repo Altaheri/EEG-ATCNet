@@ -379,15 +379,14 @@ def run():
         n_sub = 9
         n_classes = 4
         classes_labels = ['Left hand', 'Right hand','Foot','Tongue']
-        # data_path = os.path.expanduser('~') + '/BCI Competition IV/BCI Competition IV-2a/BCI Competition IV 2a mat/'
-        data_path = 'D:/5. Datasets/1. EEG datasets/BCI Competition IV/BCI Competition IV-2a/BCI Competition IV 2a mat/'
+        data_path = os.path.expanduser('~') + '/BCI Competition IV/BCI Competition IV-2a/BCI Competition IV 2a mat/'
     elif dataset == 'HGD': 
         in_samples = 1125
         n_channels = 44
         n_sub = 14
         n_classes = 4
         classes_labels = ['Right Hand', 'Left Hand','Rest','Feet']     
-        data_path = 'D:/5. Datasets/mne_data/MNE-schirrmeister2017-data/robintibor/high-gamma-dataset/raw/master/data/'
+        data_path = os.path.expanduser('~') + '/mne_data/MNE-schirrmeister2017-data/robintibor/high-gamma-dataset/raw/master/data/'
     elif dataset == 'CS2R': 
         in_samples = 1125
         # in_samples = 576
@@ -397,7 +396,7 @@ def run():
         # classes_labels = ['Fingers', 'Wrist','Elbow','Rest']     
         classes_labels = ['Fingers', 'Wrist','Elbow']     
         # classes_labels = ['Fingers', 'Elbow']     
-        data_path = 'D:/5. Datasets/1. EEG datasets/CS2R MI EEG dataset/all/EDF - Cleaned - phase one (remove extra runs)/two sessions/'
+        data_path = os.path.expanduser('~') + '/CS2R MI EEG dataset/all/EDF - Cleaned - phase one (remove extra runs)/two sessions/'
     else:
         raise Exception("'{}' dataset is not supported yet!".format(dataset))
         
