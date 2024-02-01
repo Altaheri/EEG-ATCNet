@@ -31,11 +31,11 @@ The following table shows the performance of [ATCNet](https://doi.org/10.1109/TI
         <td colspan="3">HGD</td>
     </tr>
     <tr>
-        <td>training time (m)</td>
-        <td>Inference time (ms)</td>
+        <td>training time (m) <sup>1</sup></td>
+        <td>Inference time (ms) <sup>1</sup></td>
         <td>accuracy (%)</td>
-        <td>training time (m)</td>
-        <td>Inference time (ms)</td>
+        <td>training time (m) <sup>1</sup></td>
+        <td>Inference time (ms) <sup>1</sup></td>
         <td>accuracy (%)</td>
     </tr>
     <tr>
@@ -109,7 +109,7 @@ The following table shows the performance of [ATCNet](https://doi.org/10.1109/TI
         <td>87.00</td>
     </tr>
 </table>
-
+<sup>(1) using Nvidia GTX 1080 Ti 12GB (500 epochs)</sup>
 
 ##
 This repository includes the implementation of the following attention schemes in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file: 
