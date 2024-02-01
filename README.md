@@ -23,6 +23,94 @@ In addition to the proposed [ATCNet](https://doi.org/10.1109/TII.2022.3197419) m
 
 The following table shows the performance of [ATCNet](https://doi.org/10.1109/TII.2022.3197419) and other reproduced models based on the methodology defined in the [*main_TrainValTest.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/main_TrainValTest.py) file:
 
+<table>
+    <tr>
+        <td rowspan="2">Model</td>
+        <td rowspan="2">#params</td>
+        <td colspan="3">BCI 4-2a dataset</td>
+        <td colspan="3">HGD</td>
+    </tr>
+    <tr>
+        <td>training time (m)</td>
+        <td>Inference time (ms)</td>
+        <td>accuracy (%)</td>
+        <td>training time (m)</td>
+        <td>Inference time (ms)</td>
+        <td>accuracy (%)</td>
+    </tr>
+    <tr>
+        <td>ATCNet</td>
+        <td>113,732</td>
+        <td>13.5</td>
+        <td>0.23</td>
+        <td>81.10</td>
+        <td>62.6</td>
+        <td>0.33</td>
+        <td>92.05</td>
+    </tr>
+    <tr>
+        <td>TCNet_Fusion</td>
+        <td>17,248</td>
+        <td>8.8</td>
+        <td>0.18</td>
+        <td>69.83</td>
+        <td>65.2</td>
+        <td>0.31</td>
+        <td>89.73</td>
+    </tr>
+    <tr>
+        <td>EEGTCNet</td>
+        <td>4,096</td>
+        <td>7.0</td>
+        <td>0.18</td>
+        <td>65.36</td>
+        <td>36.8</td>
+        <td>0.21</td>
+        <td>87.80</td>
+    </tr>
+    <tr>
+        <td>MBEEG_SENet</td>
+        <td>10,170</td>
+        <td>15.2</td>
+        <td>0.24</td>
+        <td>69.21</td>
+        <td>104.3</td>
+        <td>0.38</td>
+        <td>90.13</td>
+    </tr>
+    <tr>
+        <td>EEGNet</td>
+        <td>2,548</td>
+        <td>6.3</td>
+        <td>0.17</td>
+        <td>68.67</td>
+        <td>36.5</td>
+        <td>0.23</td>
+        <td>88.25</td>
+    </tr>
+    <tr>
+        <td>DeepConvNet</td>
+        <td>553,654</td>
+        <td>7.5</td>
+        <td>0.2</td>
+        <td>42.78</td>
+        <td>43.9</td>
+        <td>0.26</td>
+        <td>87.53</td>
+    </tr>
+    <tr>
+        <td>ShallowConvNet</td>
+        <td>47,364</td>
+        <td>8.2</td>
+        <td>0.2</td>
+        <td>67.48</td>
+        <td>61.8</td>
+        <td>0.29</td>
+        <td>87.00</td>
+    </tr>
+</table>
+
+
 ##
 This repository includes the implementation of the following attention schemes in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file: 
 * [Multi-head self-attention (mha)](https://arxiv.org/abs/1706.03762)
