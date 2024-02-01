@@ -109,7 +109,9 @@ The following table shows the performance of [ATCNet](https://doi.org/10.1109/TI
         <td>87.00</td>
     </tr>
 </table>
-<sup>(1) using Nvidia GTX 1080 Ti 12GB (500 epochs)</sup>
+<sup>(1) using Nvidia GTX 1080 Ti 12GB (500 epochs)</sup><br>
+<sup>Please note that  HGD is for "executed movements" NOT "motor imagery"</sup>
+
 
 ##
 This repository includes the implementation of the following attention schemes in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file: 
