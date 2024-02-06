@@ -27,8 +27,8 @@ The following table shows the performance of [ATCNet](https://doi.org/10.1109/TI
     <tr>
         <td rowspan="2">Model</td>
         <td rowspan="2">#params</td>
-        <td colspan="3">BCI 4-2a dataset</td>
-        <td colspan="3">HGD</td>
+        <td colspan="3">BCI Competition IV-2a dataset (<a href="https://www.bbci.de/competition/iv/#dataset2a">BCI 4-2a</a>) </td>
+        <td colspan="3">High Gamma Dataset (<a href="https://github.com/robintibor/high-gamma-dataset">HGD</a>)<sup>*</sup></td>
     </tr>
     <tr>
         <td>training time (m) <sup>1</sup></td>
@@ -109,9 +109,8 @@ The following table shows the performance of [ATCNet](https://doi.org/10.1109/TI
         <td>87.00</td>
     </tr>
 </table>
-<sup>(1) using Nvidia GTX 1080 Ti 12GB (500 epochs)</sup><br>
-<sup>Please note that  HGD is for "executed movements" NOT "motor imagery"</sup>
-
+<sup>1 using Nvidia GTX 1080 Ti 12GB (500 epochs - without early stopping)</sup><br>
+<sup>* Please note that <a href="https://github.com/robintibor/high-gamma-dataset">HGD</a> is for "executed movements" NOT "motor imagery"</sup>
 
 ##
 This repository includes the implementation of the following attention schemes in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file: 
@@ -137,15 +136,15 @@ The *get_data()* method in the [*preprocess.py*](https://github.com/Altaheri/EEG
 
 
 ## About ATCNet
-ATCNet is inspired in part by the vision transformer (ViT) proposed by Dosovitskiy et al. [172].  ATCNet differs from ViT by the following:
-* ViT uses single-layer linear projection while ATCNet uses multi-layer nonlinear projection, i.e., convolutional projection specifically designed for EEG-based brain signals.
-* ViT consists of a stack of encoders where the output of the previous encoder is the input of the subsequent. ATCNet consists of parallel encoders and the outputs of all encoders are concatenated.
-* The encoder block in ViT consists of an MSA followed by a multilayer perceptron (MLP) while in ATCNet the MSA is followed by a TCN.
-* The first encoder in ViT receives the entire input sequence while each encoder in ATCNet receives a shifted window from the input sequence.
+ATCNet is inspired in part by the Vision Transformer ([ViT](https://arxiv.org/abs/2010.11929)). [ATCNet](https://doi.org/10.1109/TII.2022.3197419) differs from [ViT](https://arxiv.org/abs/2010.11929) by the following:
+* [ViT](https://arxiv.org/abs/2010.11929) uses single-layer linear projection while [ATCNet](https://doi.org/10.1109/TII.2022.3197419) uses multilayer nonlinear projection, i.e., convolutional projection specifically designed for EEG-based brain signals.
+* [ViT](https://arxiv.org/abs/2010.11929) consists of a stack of encoders where the output of the previous encoder is the input of the subsequent. [ATCNet](https://doi.org/10.1109/TII.2022.3197419) consists of parallel encoders and the outputs of all encoders are concatenated.
+* The encoder block in [ViT](https://arxiv.org/abs/2010.11929) consists of an MSA followed by a multilayer perceptron (MLP), while in [ATCNet](https://doi.org/10.1109/TII.2022.3197419) the MSA is followed by a TCN.
+* The first encoder in [ViT](https://arxiv.org/abs/2010.11929) receives the entire input sequence, while each encoder in [ATCNet](https://doi.org/10.1109/TII.2022.3197419) receives a shifted window from the input sequence.
 
 ![ATCNet vs Vit](https://github.com/Altaheri/EEG-ATCNet/assets/25565236/210f6a4e-c212-4a9e-9336-415f0df4e293)
 
-ATCNet model consists of three main blocks: 
+[ATCNet](https://doi.org/10.1109/TII.2022.3197419) model consists of three main blocks: 
 1. **Convolutional (CV) block**: encodes low-level spatio-temporal information within the MI-EEG signal into a sequence of high-level temporal representations through three convolutional layers. 
 2. **Attention (AT) block**: highlights the most important information in the temporal sequence using a multi-head self-attention (MSA). 
 3. **Temporal convolutional (TC) block**: extracts high-level temporal features from the highlighted information using a temporal convolutional layer
@@ -174,7 +173,7 @@ The following packages are required:
 * SciPy 1.7
 
 ## Dataset 
-The [BCI Competition IV-2a](http://www.bbci.de/competition/iv/#dataset2a) dataset needs to be downloaded and the data path placed at 'data_path' variable in [*main.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/main.py) file. The dataset can be downloaded from [here](http://bnci-horizon-2020.eu/database/data-sets).
+The [BCI Competition IV-2a](https://www.bbci.de/competition/iv/#dataset2a) dataset needs to be downloaded and the data path placed at 'data_path' variable in [*main.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/main.py) file. The dataset can be downloaded from [here](http://bnci-horizon-2020.eu/database/data-sets).
 
 ## References
 If you find this work useful in your research, please use the following BibTeX entry for citation
