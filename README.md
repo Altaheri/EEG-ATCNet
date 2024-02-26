@@ -31,10 +31,10 @@ The following table shows the performance of [ATCNet](https://doi.org/10.1109/TI
         <td colspan="3">High Gamma Dataset (<a href="https://github.com/robintibor/high-gamma-dataset">HGD</a>)<sup>*</sup></td>
     </tr>
     <tr>
-        <td>training time (m) <sup>1</sup></td>
+        <td>training time (m) <sup>1,2</sup></td>
         <td>Inference time (ms) <sup>1</sup></td>
         <td>accuracy (%)</td>
-        <td>training time (m) <sup>1</sup></td>
+        <td>training time (m) <sup>1,2</sup></td>
         <td>Inference time (ms) <sup>1</sup></td>
         <td>accuracy (%)</td>
     </tr>
@@ -109,8 +109,9 @@ The following table shows the performance of [ATCNet](https://doi.org/10.1109/TI
         <td>87.00</td>
     </tr>
 </table>
-<sup>1 using Nvidia GTX 1080 Ti 12GB (500 epochs - without early stopping)</sup><br>
-<sup>* Please note that <a href="https://github.com/robintibor/high-gamma-dataset">HGD</a> is for "executed movements" NOT "motor imagery"</sup>
+<sup>1 using Nvidia GTX 1080 Ti 12GB </sup><br>
+<sup>2 (500 epochs, without early stopping)</sup><br>
+<sup>* please note that <a href="https://github.com/robintibor/high-gamma-dataset">HGD</a> is for "executed movements" NOT "motor imagery"</sup>
 
 ##
 This repository includes the implementation of the following attention schemes in the [*attention_models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/attention_models.py) file: 
@@ -139,7 +140,7 @@ The *get_data()* method in the [*preprocess.py*](https://github.com/Altaheri/EEG
 ATCNet is inspired in part by the Vision Transformer ([ViT](https://arxiv.org/abs/2010.11929)). [ATCNet](https://doi.org/10.1109/TII.2022.3197419) differs from [ViT](https://arxiv.org/abs/2010.11929) by the following:
 * [ViT](https://arxiv.org/abs/2010.11929) uses single-layer linear projection while [ATCNet](https://doi.org/10.1109/TII.2022.3197419) uses multilayer nonlinear projection, i.e., convolutional projection specifically designed for EEG-based brain signals.
 * [ViT](https://arxiv.org/abs/2010.11929) consists of a stack of encoders where the output of the previous encoder is the input of the subsequent. [ATCNet](https://doi.org/10.1109/TII.2022.3197419) consists of parallel encoders and the outputs of all encoders are concatenated.
-* The encoder block in [ViT](https://arxiv.org/abs/2010.11929) consists of an MSA followed by a multilayer perceptron (MLP), while in [ATCNet](https://doi.org/10.1109/TII.2022.3197419) the MSA is followed by a TCN.
+* The encoder block in [ViT](https://arxiv.org/abs/2010.11929) consists of a multi-head self-attention (MSA) followed by a multilayer perceptron (MLP), while in [ATCNet](https://doi.org/10.1109/TII.2022.3197419) the MSA is followed by a temporal convolutional network (TCN).
 * The first encoder in [ViT](https://arxiv.org/abs/2010.11929) receives the entire input sequence, while each encoder in [ATCNet](https://doi.org/10.1109/TII.2022.3197419) receives a shifted window from the input sequence.
 
 ![ATCNet vs Vit](https://github.com/Altaheri/EEG-ATCNet/assets/25565236/210f6a4e-c212-4a9e-9336-415f0df4e293)
