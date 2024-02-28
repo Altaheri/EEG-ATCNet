@@ -155,7 +155,7 @@ ATCNet is inspired in part by the Vision Transformer ([ViT](https://arxiv.org/ab
 Visualize the transition of data in the ATCNet model.
 </p>
 <p align="center">
-<img src="https://user-images.githubusercontent.com/25565236/185449791-e8539453-d4fa-41e1-865a-2cf7e91f60ef.png" alt="The components of the proposed ATCNet model" width="800"/>
+<img src="https://user-images.githubusercontent.com/25565236/185449791-e8539453-d4fa-41e1-865a-2cf7e91f60ef.png" alt="The components of the proposed ATCNet model" width="700"/>
 </p>
 
 ## Development environment
