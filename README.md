@@ -140,28 +140,22 @@ The *get_data()* method in the [*preprocess.py*](https://github.com/Altaheri/EEG
 ATCNet is inspired in part by the Vision Transformer ([ViT](https://arxiv.org/abs/2010.11929)). [ATCNet](https://doi.org/10.1109/TII.2022.3197419) differs from [ViT](https://arxiv.org/abs/2010.11929) by the following:
 * [ViT](https://arxiv.org/abs/2010.11929) uses single-layer linear projection while [ATCNet](https://doi.org/10.1109/TII.2022.3197419) uses multilayer nonlinear projection, i.e., convolutional projection specifically designed for EEG-based brain signals.
 * [ViT](https://arxiv.org/abs/2010.11929) consists of a stack of encoders where the output of the previous encoder is the input of the subsequent. [ATCNet](https://doi.org/10.1109/TII.2022.3197419) consists of parallel encoders and the outputs of all encoders are concatenated.
-* The encoder block in [ViT](https://arxiv.org/abs/2010.11929) consists of a multi-head self-attention (MSA) followed by a multilayer perceptron (MLP), while in [ATCNet](https://doi.org/10.1109/TII.2022.3197419) the MSA is followed by a temporal convolutional network (TCN).
+* The encoder block in [ViT](https://arxiv.org/abs/2010.11929) consists of a multi-head self-attention (MHA) followed by a multilayer perceptron (MLP), while in [ATCNet](https://doi.org/10.1109/TII.2022.3197419) the MHA is followed by a temporal convolutional network (TCN).
 * The first encoder in [ViT](https://arxiv.org/abs/2010.11929) receives the entire input sequence, while each encoder in [ATCNet](https://doi.org/10.1109/TII.2022.3197419) receives a shifted window from the input sequence.
 
 ![ATCNet vs Vit](https://github.com/Altaheri/EEG-ATCNet/assets/25565236/210f6a4e-c212-4a9e-9336-415f0df4e293)
 
 [ATCNet](https://doi.org/10.1109/TII.2022.3197419) model consists of three main blocks: 
 1. **Convolutional (CV) block**: encodes low-level spatio-temporal information within the MI-EEG signal into a sequence of high-level temporal representations through three convolutional layers. 
-2. **Attention (AT) block**: highlights the most important information in the temporal sequence using a multi-head self-attention (MSA). 
+2. **Attention (AT) block**: highlights the most important information in the temporal sequence using a multi-head self-attention (MHA). 
 3. **Temporal convolutional (TC) block**: extracts high-level temporal features from the highlighted information using a temporal convolutional layer
 * [ATCNet](https://doi.org/10.1109/TII.2022.3197419) model also utilizes the convolutional-based sliding window to augment MI data and boost the performance of MI classification efficiently. 
 
 <p align="center">
-The components of the ATCNet model
-</p>
-<p align="center">
-<img src="https://user-images.githubusercontent.com/25565236/185448044-17020feb-fd0d-402b-93aa-2942cba9b8af.png" alt="The components of the proposed ATCNet model" width="300"/>
-</p>
-<p align="center">
 Visualize the transition of data in the ATCNet model.
 </p>
 <p align="center">
-<img src="https://user-images.githubusercontent.com/25565236/185449791-e8539453-d4fa-41e1-865a-2cf7e91f60ef.png" alt="The components of the proposed ATCNet model" width="500"/>
+<img src="https://user-images.githubusercontent.com/25565236/185449791-e8539453-d4fa-41e1-865a-2cf7e91f60ef.png" alt="The components of the proposed ATCNet model" width="800"/>
 </p>
 
 ## Development environment
