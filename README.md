@@ -152,7 +152,8 @@ The following packages are required:
 * SciPy 1.7
 
 ## Dataset 
-The [BCI Competition IV-2a](https://www.bbci.de/competition/iv/#dataset2a) dataset needs to be downloaded and the data path placed at 'data_path' variable in [*main.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/main.py) file. The dataset can be downloaded from [here](http://bnci-horizon-2020.eu/database/data-sets).
+The [BCI Competition IV-2a](https://www.bbci.de/competition/iv/#dataset2a) dataset needs to be downloaded, and the data path should be set in the 'data_path' variable in the [*main_TrainValTest.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/main_TrainValTest.py) file. The dataset can be downloaded from [here](http://bnci-horizon-2020.eu/database/data-sets).
+
 
 ## References
 If you find this work useful in your research, please use the following BibTeX entry for citation
