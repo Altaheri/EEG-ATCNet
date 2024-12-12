@@ -71,7 +71,7 @@ def load_data_LOSO (data_path, subject, dataset):
         if (sub == subject):
             X_test = X
             y_test = y
-        elif (X_train == []):
+        elif len(X_train) == 0:  
             X_train = X
             y_train = y
         else:
