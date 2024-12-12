@@ -93,7 +93,7 @@ def train(dataset_conf, train_conf, results_path):
     # Create a file to store performance during training
     log_write = open(results_path + "/log.txt", "w")
     
-    # Get dataset paramters
+    # Get dataset parameters
     dataset = dataset_conf.get('name')
     n_sub = dataset_conf.get('n_sub')
     data_path = dataset_conf.get('data_path')
@@ -123,7 +123,7 @@ def train(dataset_conf, train_conf, results_path):
         BestSubjAcc = 0 
         bestTrainingHistory = [] 
         
-        # Get training and test data
+        # Get training and validation data
         X_train, _, y_train_onehot, _, _, _ = get_data(
             data_path, sub, dataset, LOSO = LOSO, isStandard = isStandard)
          
