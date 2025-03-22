@@ -167,7 +167,7 @@ If you find this work useful in your research, please use the following BibTeX e
   volume={19},
   number={2},
   pages={2249--2258},
-  publisher={IEEE}
+  publisher={IEEE},
   doi={10.1109/TII.2022.3197419}
 }
 
@@ -179,7 +179,7 @@ If you find this work useful in your research, please use the following BibTeX e
   volume={10},
   number={21},
   pages={18579-18588},
-  publisher={IEEE}
+  publisher={IEEE},
   doi={10.1109/JIOT.2023.3281911}
 }
 
@@ -191,7 +191,7 @@ If you find this work useful in your research, please use the following BibTeX e
   volume={35},
   number={20},
   pages={14681--14722},
-  publisher={Springer}
+  publisher={Springer},
   doi={10.1007/s00521-021-06352-5}
 }
 
