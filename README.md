@@ -1,16 +1,26 @@
 # EEG-ATCNet
+> This repository provides code for the Attention Temporal Convolutional Network [(ATCNet)](https://doi.org/10.1109/TII.2022.3197419) proposed in:  
+> **Physics-informed attention temporal convolutional network for EEG-based motor imagery classification**  
+> https://ieeexplore.ieee.org/document/9852687
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/physics-inform-attention-temporal/eeg-4-classes-on-bci-competition-iv-2a)](https://paperswithcode.com/sota/eeg-4-classes-on-bci-competition-iv-2a?p=physics-inform-attention-temporal)
+---
 
-This repository provides code for the Attention Temporal Convolutional Network [(ATCNet)](https://doi.org/10.1109/TII.2022.3197419) proposed in the paper: [Physics-informed attention temporal convolutional network for EEG-based motor imagery classification](https://doi.org/10.1109/TII.2022.3197419)
+## Updates
 
-Authors: Hamdi Altaheri, Ghulam Muhammad, Mansour Alsulaiman
+> 🔄 **PyTorch & new repository (2025-09-26)**  
+> A **PyTorch** implementation is available in our new repository: **[Altaheri/TCFormer](https://github.com/Altaheri/TCFormer)**.  
+> Thanks to **[Martin Wimpff](https://github.com/martinwimpff)** for the PyTorch implementation contributions.
+>
+> - This repository (**EEG-ATCNet**) contains the original **TensorFlow** code.  
+> - A **PyTorch** version of **ATCNet** is also available via **[Braindecode](https://github.com/braindecode/braindecode/blob/master/braindecode/models/atcnet.py)**.  
+>   Many thanks to the Braindecode team for implementing ATCNet in PyTorch and for maintaining high-quality EEG tooling.
 
-Center of Smart Robotics Research, King Saud University, Saudi Arabia
-##
-**Updates**: 
-* The regularization parameters of [ATCNet](https://doi.org/10.1109/TII.2022.3197419) have been modified, resulting in an enhancement in the model's performance and fortifying it against overfitting.
-* The current [*main_TrainTest.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/main_TrainTest.py) file, following the training and evaluation method outlined in [Paper 1](https://doi.org/10.1109/TII.2022.3197419) and [paper 2](https://ieeexplore.ieee.org/document/10142002), has been identified as not aligning with industry best practices. In response, we strongly recommend adopting the methodology implemented in the refined [*main_TrainValTest.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/main_TrainValTest.py) file. This updated version splits the data into train/valid/test sets, following the guidelines detailed in this [post](https://braindecode.org/stable/auto_examples/model_building/plot_how_train_test_and_tune.html#) ([Option 2](https://braindecode.org/stable/auto_examples/model_building/plot_how_train_test_and_tune.html#option-2-train-val-test-split:~:text=Number%20of%20samples.%27%3E-,Option%202%3A%20Train%2DVal%2DTest%20Split,-When%20evaluating%20different)). 
+- The regularization parameters of [ATCNet](https://doi.org/10.1109/TII.2022.3197419) have been updated to improve performance and robustness to overfitting.
+- The current [`main_TrainTest.py`](https://github.com/Altaheri/EEG-ATCNet/blob/main/main_TrainTest.py), which follows the methodology in [Paper 1](https://doi.org/10.1109/TII.2022.3197419) and [Paper 2](https://ieeexplore.ieee.org/document/10142002), is **not** aligned with best practice.  
+  Please use the refined [`main_TrainValTest.py`](https://github.com/Altaheri/EEG-ATCNet/blob/main/main_TrainValTest.py), which adopts a **Train–Val–Test** split as recommended in this guide:  
+  https://braindecode.org/stable/auto_examples/model_building/plot_how_train_test_and_tune.html# (see **Option 2: Train–Val–Test Split**).
+
+
 ##
 In addition to the proposed [ATCNet](https://doi.org/10.1109/TII.2022.3197419) model, the [*models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/models.py) file includes the implementation of other related methods, which can be compared with [ATCNet](https://doi.org/10.1109/TII.2022.3197419), including:
 * **EEGNet**, [[paper](https://arxiv.org/abs/1611.08024), [original code](https://github.com/vlawhern/arl-eegmodels)]
