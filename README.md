@@ -1,27 +1,27 @@
 # EEG-ATCNet
-> This repository provides code for the Attention Temporal Convolutional Network [(ATCNet)](https://doi.org/10.1109/TII.2022.3197419) proposed in:  
+> This repository provides the TensorFlow implementation for the Attention Temporal Convolutional Network [(ATCNet)](https://doi.org/10.1109/TII.2022.3197419) proposed in:  
 > **Physics-informed attention temporal convolutional network for EEG-based motor imagery classification**  
 > https://ieeexplore.ieee.org/document/9852687
 
+![](https://img.shields.io/badge/-ffffff?style=flat-square&height=1)
+
+
+## 🔄 PyTorch & New Repository
+
+> A PyTorch implementation is now available in our new repository: [Altaheri/TCFormer](https://github.com/Altaheri/TCFormer). Thanks to [Martin Wimpff](https://github.com/martinwimpff) for his contributions to the PyTorch implementation.  
+
+![](https://img.shields.io/badge/-e6766e?style=flat-square&height=1)
+[![Braindecode](https://img.shields.io/badge/Braindecode-ATCNet-4c7fbe)](https://braindecode.org/dev/generated/braindecode.models.ATCNet.html)
+> A **PyTorch** version of ATCNet is also available via [Braindecode](https://braindecode.org/dev/generated/braindecode.models.ATCNet.html). Many thanks to the Braindecode team for porting ATCNet to PyTorch and for maintaining high-quality EEG tooling.
+
+> **Note:** The current `main_TrainTest.py` follows the methodology described in [Paper 1](https://doi.org/10.1109/TII.2022.3197419) and [Paper 2](https://ieeexplore.ieee.org/document/10142002), but its evaluation approach does not align with current best practices.
+>
+> Please use the refined `main_TrainValTest.py` instead, which adopts a **Train–Val–Test split**, as recommended in the Braindecode guide on [training, testing, and tuning](https://braindecode.org/stable/auto_examples/model_building/plot_how_train_test_and_tune.html) (see **Option 2: Train–Val–Test Split**).
+
 ---
 
-## Updates
+## Results 
 
-> 🔄 **PyTorch & new repository (2025-09-26)**  
-> A **PyTorch** implementation is available in our new repository: **[Altaheri/TCFormer](https://github.com/Altaheri/TCFormer)**.  
-> Thanks to **[Martin Wimpff](https://github.com/martinwimpff)** for the PyTorch implementation contributions.
->
-> - This repository (**EEG-ATCNet**) contains the original **TensorFlow** code.  
-> - A **PyTorch** version of **ATCNet** is also available via **[Braindecode](https://github.com/braindecode/braindecode/blob/master/braindecode/models/atcnet.py)**.  
->   Many thanks to the Braindecode team for implementing ATCNet in PyTorch and for maintaining high-quality EEG tooling.
-
-- The regularization parameters of [ATCNet](https://doi.org/10.1109/TII.2022.3197419) have been updated to improve performance and robustness to overfitting.
-- The current [`main_TrainTest.py`](https://github.com/Altaheri/EEG-ATCNet/blob/main/main_TrainTest.py), which follows the methodology in [Paper 1](https://doi.org/10.1109/TII.2022.3197419) and [Paper 2](https://ieeexplore.ieee.org/document/10142002), is **not** aligned with best practice.  
-  Please use the refined [`main_TrainValTest.py`](https://github.com/Altaheri/EEG-ATCNet/blob/main/main_TrainValTest.py), which adopts a **Train–Val–Test** split as recommended in this guide:  
-  https://braindecode.org/stable/auto_examples/model_building/plot_how_train_test_and_tune.html# (see **Option 2: Train–Val–Test Split**).
-
-
-##
 In addition to the proposed [ATCNet](https://doi.org/10.1109/TII.2022.3197419) model, the [*models.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/models.py) file includes the implementation of other related methods, which can be compared with [ATCNet](https://doi.org/10.1109/TII.2022.3197419), including:
 * **EEGNet**, [[paper](https://arxiv.org/abs/1611.08024), [original code](https://github.com/vlawhern/arl-eegmodels)]
 * **EEG-TCNet**, [[paper](https://arxiv.org/abs/2006.00622), [original code](https://github.com/iis-eth-zurich/eeg-tcnet)]
@@ -129,6 +129,7 @@ The [*preprocess.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/preproces
 
 The *get_data()* method in the [*preprocess.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/preprocess.py) file is used to load the dataset and split it into training and testing. This method uses the [subject-specific](https://link.springer.com/article/10.1007/s00521-021-06352-5#Sec9:~:text=Full%20size%20table-,Performance%20evaluation,-For%20the%20MI) approach by default. If you want to use the [subject-independent (LOSO)](https://link.springer.com/article/10.1007/s00521-021-06352-5#Sec9:~:text=Full%20size%20table-,Performance%20evaluation,-For%20the%20MI) approach, set the parameter *LOSO = True*.
 
+---
 
 ## About ATCNet
 ATCNet is inspired in part by the Vision Transformer ([ViT](https://arxiv.org/abs/2010.11929)). [ATCNet](https://doi.org/10.1109/TII.2022.3197419) differs from [ViT](https://arxiv.org/abs/2010.11929) by the following:
@@ -152,6 +153,8 @@ Visualize the transition of data in the ATCNet model.
 <img src="https://user-images.githubusercontent.com/25565236/185449791-e8539453-d4fa-41e1-865a-2cf7e91f60ef.png" alt="The components of the proposed ATCNet model" width="700"/>
 </p>
 
+---
+
 ## Development environment
 Models were trained and tested by a single GPU, Nvidia [GTX 2070 8GB](https://www.nvidia.com/en-me/geforce/graphics-cards/rtx-2070/) (Driver Version: [512.78](https://www.nvidia.com/download/driverResults.aspx/188599/en-us/), [CUDA 11.3](https://developer.nvidia.com/cuda-11.3.0-download-archive)), using Python 3.7 with [TensorFlow](https://www.tensorflow.org/) framework. [Anaconda 3](https://www.anaconda.com/products/distribution) was used on [Ubuntu 20.04.4 LTS](https://releases.ubuntu.com/20.04/) and [Windows 11](https://www.microsoft.com/en-hk/software-download/windows11).
 The following packages are required:
@@ -161,9 +164,12 @@ The following packages are required:
 * scikit-learn 1.0
 * SciPy 1.7
 
+---
+
 ## Dataset 
 The [BCI Competition IV-2a](https://www.bbci.de/competition/iv/#dataset2a) dataset needs to be downloaded, and the data path should be set in the 'data_path' variable in the [*main_TrainValTest.py*](https://github.com/Altaheri/EEG-ATCNet/blob/main/main_TrainValTest.py) file. The dataset can be downloaded from [here](http://bnci-horizon-2020.eu/database/data-sets).
 
+---
 
 ## References
 If you find this work useful in your research, please use the following BibTeX entry for citation
